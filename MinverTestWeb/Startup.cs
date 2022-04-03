@@ -1,3 +1,4 @@
+using AspNetCore.Authentication.ApiKey;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -5,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MinverTestLib;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MinverTestWeb
 {
@@ -19,7 +22,32 @@ namespace MinverTestWeb
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            var apiKey = Configuration.GetValue<string>("ApiKey") ?? "1234567890";
+            services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+                .AddApiKeyInHeader(options =>
+                {
+                    options.Realm = "Minver API";
+                    options.KeyName = "X-API-KEY";
+                    options.Events = new ApiKeyEvents
+                    {
+                        OnValidateKey = (context) =>
+                        {
+                            if (string.Compare(context.ApiKey, apiKey, true) != 0)
+                                context.NoResult();
+                            else
+                            {
+                                var claims = new[]
+                                {
+                                    new Claim(ClaimTypes.NameIdentifier, "0", ClaimValueTypes.Integer32, context.Options.ClaimsIssuer),
+                                    new Claim(ClaimTypes.Name, "Api Key User", ClaimValueTypes.String, context.Options.ClaimsIssuer)
+                                };
+                                context.Principal = new ClaimsPrincipal(new ClaimsIdentity(claims, context.Scheme.Name));
+                                context.Success();
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -38,10 +66,12 @@ namespace MinverTestWeb
             }
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers()
+                    .RequireAuthorization();
             });
         }
     }
