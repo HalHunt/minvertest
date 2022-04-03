@@ -1,6 +1,6 @@
 using System;
 
-namespace MinverTestWeb
+namespace MinverTestLib
 {
     public class WeatherForecast
     {

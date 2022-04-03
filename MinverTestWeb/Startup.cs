@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MinverTestLib;
 
 namespace MinverTestWeb
 {
@@ -24,6 +25,7 @@ namespace MinverTestWeb
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MinverTestWeb", Version = "v1" });
             });
+            services.AddScoped<WeatherForecastService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
