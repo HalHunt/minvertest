@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinverTestWeb", "MinverTestWeb.csproj", "{4A9A7CB7-84E5-450D-BE48-2F35357F2B83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinverTestWeb", "MinverTestWeb.csproj", "{4A9A7CB7-84E5-450D-BE48-2F35357F2B83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinverTestLib", "..\MinverTestLib\MinverTestLib.csproj", "{04A17C0F-BC46-4F12-9750-CCB4EC1E0E3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinverTestLib", "..\MinverTestLib\MinverTestLib.csproj", "{04A17C0F-BC46-4F12-9750-CCB4EC1E0E3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1126A585-04D2-4DEB-87BA-25033B7EDB5E}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
